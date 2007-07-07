@@ -1,5 +1,5 @@
 %define name	leafnode
-%define version	1.11.5
+%define version	1.11.6
 %define release %mkrel 1
 
 Summary:	Leafnode - a leafsite NNTP server
@@ -88,5 +88,3 @@ rm -rf $RPM_BUILD_ROOT
 %dir /var/spool/news
 %dir /var/spool/news/*
 %dir /var/spool/news/message.id/*
-
-
