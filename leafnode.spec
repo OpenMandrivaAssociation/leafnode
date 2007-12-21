@@ -16,6 +16,7 @@ Source3:	%{name}.filters
 Source4: 	%{name}.xinetd
 Conflicts:	inn
 BuildRequires:	libpcre-devel
+Buildroot: 	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 Requires:	xinetd
 
 %description
