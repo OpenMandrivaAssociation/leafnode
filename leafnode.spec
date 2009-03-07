@@ -1,6 +1,6 @@
 %define name	leafnode
 %define version	1.11.6
-%define release %mkrel 3
+%define release %mkrel 4
 
 Summary:	Leafnode - a leafsite NNTP server
 Name: 		%{name}
