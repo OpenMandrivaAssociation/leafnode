@@ -1,6 +1,6 @@
 %define name	leafnode
-%define version	1.11.6
-%define release %mkrel 5
+%define version	1.11.7
+%define release %mkrel 1
 
 Summary:	Leafnode - a leafsite NNTP server
 Name: 		%{name}
@@ -9,8 +9,8 @@ Release: 	%{release}
 License: 	Artistic
 Group: 		System/Servers
 URL:		http://www.leafnode.org
-Source: http://prdownloads.sourceforge.net/%{name}/%{name}-%{version}.tar.bz2
-Source1: http://prdownloads.sourceforge.net/%{name}/%{name}-%{version}.tar.bz2.asc
+Source: 	http://prdownloads.sourceforge.net/%{name}/%{name}-%{version}.tar.bz2
+Source1:	http://prdownloads.sourceforge.net/%{name}/%{name}-%{version}.tar.bz2.asc
 Source2:	%{name}.texpire
 Source3:	%{name}.filters
 Source4: 	%{name}.xinetd
