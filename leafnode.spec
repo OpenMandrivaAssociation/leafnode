@@ -42,7 +42,7 @@ rm -rf %{buildroot}
 make DESTDIR=%{buildroot} install
 install -d %{buildroot}%{_sysconfdir}/{cron.daily,leafnode}
 install -m 755 %SOURCE2 %{buildroot}%{_sysconfdir}/cron.daily/texpire
-install -m 600 $RPM_BUILD_DIR/%name-%version/config.example %{buildroot}%{_sysconfdir}/leafnode/config
+install -m 600 %{_builddir}/%name-%version/config.example %{buildroot}%{_sysconfdir}/leafnode/config
 install -m 600 %SOURCE3 %{buildroot}%{_sysconfdir}/leafnode/filters
 install -D -m644 %{SOURCE4} %buildroot/etc/xinetd.d/%{name}
 
