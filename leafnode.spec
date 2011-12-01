@@ -38,26 +38,26 @@ make
 #perl -p -i -e 's|/etc/inetd.conf|/etc/xinetd.d/leafnode|' `grep -r /etc/inetd.conf ../$RPM_BUILD_dir/%{name}-%{version}.rel|awk '{print $1}'| sed 's|^..\/BUILD\/||'|sed -e 's|:.*$|\1|'`
 
 %install
-rm -rf $RPM_BUILD_ROOT
-make DESTDIR=$RPM_BUILD_ROOT install
-install -d $RPM_BUILD_ROOT%{_sysconfdir}/{cron.daily,leafnode}
-install -m 755 %SOURCE2 $RPM_BUILD_ROOT%{_sysconfdir}/cron.daily/texpire
-install -m 600 $RPM_BUILD_DIR/%name-%version/config.example $RPM_BUILD_ROOT%{_sysconfdir}/leafnode/config
-install -m 600 %SOURCE3 $RPM_BUILD_ROOT%{_sysconfdir}/leafnode/filters
+rm -rf %{buildroot}
+make DESTDIR=%{buildroot} install
+install -d %{buildroot}%{_sysconfdir}/{cron.daily,leafnode}
+install -m 755 %SOURCE2 %{buildroot}%{_sysconfdir}/cron.daily/texpire
+install -m 600 $RPM_BUILD_DIR/%name-%version/config.example %{buildroot}%{_sysconfdir}/leafnode/config
+install -m 600 %SOURCE3 %{buildroot}%{_sysconfdir}/leafnode/filters
 install -D -m644 %{SOURCE4} %buildroot/etc/xinetd.d/%{name}
 
 cp doc_german/README doc_german/README.de
 
 # Install the man pages
-install -d $RPM_BUILD_ROOT%{_mandir}/{,de}/man{1,3,8}
-install -m 644 doc_german/*.1 $RPM_BUILD_ROOT%{_mandir}/de/man1
+install -d %{buildroot}%{_mandir}/{,de}/man{1,3,8}
+install -m 644 doc_german/*.1 %{buildroot}%{_mandir}/de/man1
 rm -rf doc_german/*.1
-install -m 644 doc_german/*.8 $RPM_BUILD_ROOT%{_mandir}/de/man8
+install -m 644 doc_german/*.8 %{buildroot}%{_mandir}/de/man8
 rm -rf doc_german/*.8
-install -m 644 `find . -name "*.1"` $RPM_BUILD_ROOT%{_mandir}/man1
-install -m 644 `find . -name "*.8"` $RPM_BUILD_ROOT%{_mandir}/man8
-rm -f $RPM_BUILD_ROOT%{_mandir}/man?/pcre*
-mkdir -p $RPM_BUILD_ROOT/var/spool/news/message.id/{0,1,2,3,4,5,6,7,8,9}{0,1,2,3,4,5,6,7,8,9}{0,1,2,3,4,5,6,7,8,9}
+install -m 644 `find . -name "*.1"` %{buildroot}%{_mandir}/man1
+install -m 644 `find . -name "*.8"` %{buildroot}%{_mandir}/man8
+rm -f %{buildroot}%{_mandir}/man?/pcre*
+mkdir -p %{buildroot}/var/spool/news/message.id/{0,1,2,3,4,5,6,7,8,9}{0,1,2,3,4,5,6,7,8,9}{0,1,2,3,4,5,6,7,8,9}
 
 %pre
 if [ -f %{_sysconfdir}/cron.daily/texpire.cron ] ; then
@@ -65,7 +65,7 @@ if [ -f %{_sysconfdir}/cron.daily/texpire.cron ] ; then
 fi
 
 %clean
-rm -rf $RPM_BUILD_ROOT
+rm -rf %{buildroot}
 
 %files
 %defattr (644,root,root,755)
