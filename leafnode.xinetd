@@ -1,0 +1,13 @@
+# This is a modification to get the nntp service working on the Mandrake 7.2 with xinetd package
+#
+#
+service nntp
+{
+        flags           = REUSE
+        socket_type     = stream
+        wait            = no
+        user            = news
+        server          = /usr/sbin/leafnode
+        log_on_failure  += USERID
+}
+# End of nntp

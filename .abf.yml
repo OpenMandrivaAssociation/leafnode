@@ -1,6 +1,2 @@
 sources:
-  "leafnode-1.11.8.tar.bz2:"	25bd5de560ffa3bd3adf5a7c7108fe517c3e4cde
-  "leafnode-1.11.8.tar.bz2.asc:"	efcfa47fdb85626c4a47b5903519203d12a26092
-  "leafnode.filters:"	7c139e667cc03a187d8a903543e42cf34ab1e0fd
-  "leafnode.texpire:"	3959acb5fb18ab4e431f9d6db8ebd48caf6db59a
-  "leafnode.xinetd:"	6839164de88a292621f33968a90541d925ad2480
+  "leafnode-1.11.8.tar.bz2": 25bd5de560ffa3bd3adf5a7c7108fe517c3e4cde
