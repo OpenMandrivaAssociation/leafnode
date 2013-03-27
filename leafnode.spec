@@ -1,11 +1,7 @@
-%define name	leafnode
-%define version	1.11.8
-%define release %mkrel 3
-
 Summary:	Leafnode - a leafsite NNTP server
-Name: 		%{name}
-Version: 	%{version}
-Release: 	%{release}
+Name: 		leafnode
+Version: 	1.11.8
+Release: 	4
 License: 	Artistic
 Group: 		System/Servers
 URL:		http://www.leafnode.org
@@ -15,7 +11,7 @@ Source2:	%{name}.texpire
 Source3:	%{name}.filters
 Source4: 	%{name}.xinetd
 Conflicts:	inn
-BuildRequires:	libpcre-devel
+BuildRequires:	pcre-devel
 Requires:	xinetd
 
 %description
