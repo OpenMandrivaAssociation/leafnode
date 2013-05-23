@@ -1,18 +1,18 @@
 Summary:	Leafnode - a leafsite NNTP server
-Name: 		leafnode
-Version: 	1.11.8
-Release: 	4
-License: 	Artistic
-Group: 		System/Servers
-URL:		http://www.leafnode.org
-Source: 	http://prdownloads.sourceforge.net/%{name}/%{name}-%{version}.tar.bz2
+Name:		leafnode
+Version:	1.11.8
+Release:	4
+License:	Artistic
+Group:		System/Servers
+Url:		http://www.leafnode.org
+Source0:	http://prdownloads.sourceforge.net/%{name}/%{name}-%{version}.tar.bz2
 Source1:	http://prdownloads.sourceforge.net/%{name}/%{name}-%{version}.tar.bz2.asc
 Source2:	%{name}.texpire
 Source3:	%{name}.filters
-Source4: 	%{name}.xinetd
-Conflicts:	inn
-BuildRequires:	pcre-devel
+Source4:	%{name}.xinetd
+BuildRequires:	pkgconfig(libpcre)
 Requires:	xinetd
+Conflicts:	inn
 
 %description
 Leafnode is a small NNTP server for leaf sites without permanent
@@ -21,24 +21,22 @@ automatically fetch the newsgroups the user reads regularly from the
 newsserver of the ISP.
 
 %prep
-
-%setup -q -n %name-%version
+%setup -q
 
 %build
-%configure --with-spooldir=/var/spool/news \
-	   --with-lockfile=/var/lock/news/%name \
-	   --sysconfdir=%{_sysconfdir}/%name
-make 
-
-#perl -p -i -e 's|/etc/inetd.conf|/etc/xinetd.d/leafnode|' `grep -r /etc/inetd.conf ../$RPM_BUILD_dir/%{name}-%{version}.rel|awk '{print $1}'| sed 's|^..\/BUILD\/||'|sed -e 's|:.*$|\1|'`
+%configure2_5x \
+	--with-spooldir=/var/spool/news \
+	--with-lockfile=/var/lock/news/%{name} \
+	--sysconfdir=%{_sysconfdir}/%{name}
+%make 
 
 %install
-make DESTDIR=%{buildroot} install
+%makeinstall_std
 install -d %{buildroot}%{_sysconfdir}/{cron.daily,leafnode}
 install -m 755 %SOURCE2 %{buildroot}%{_sysconfdir}/cron.daily/texpire
-install -m 600 %{_builddir}/%name-%version/config.example %{buildroot}%{_sysconfdir}/leafnode/config
+install -m 600 %{_builddir}/%{name}-%{version}/config.example %{buildroot}%{_sysconfdir}/leafnode/config
 install -m 600 %SOURCE3 %{buildroot}%{_sysconfdir}/leafnode/filters
-install -D -m644 %{SOURCE4} %buildroot/etc/xinetd.d/%{name}
+install -D -m644 %{SOURCE4} %{buildroot}/etc/xinetd.d/%{name}
 
 cp doc_german/README doc_german/README.de
 
@@ -59,7 +57,6 @@ if [ -f %{_sysconfdir}/cron.daily/texpire.cron ] ; then
 fi
 
 %files
-%defattr (644,root,root,755)
 %doc COPYING CREDITS INSTALL README tools/archivefaq.pl update.sh
 #%doc doc_german/README.de doc_german/txt/*
 %attr(755,root,root) %config(noreplace) %{_sysconfdir}/cron.daily/texpire
@@ -79,5 +76,4 @@ fi
 %dir /var/spool/news
 %dir /var/spool/news/*
 %dir /var/spool/news/message.id/*
-
 
