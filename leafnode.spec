@@ -1,4 +1,4 @@
-Summary:	Leafnode - a leafsite NNTP server
+Summary:	- a leafsite NNTP server
 Name:		leafnode
 Version:	1.11.8
 Release:	4
