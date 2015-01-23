@@ -1,7 +1,7 @@
 Summary:	Leafsite NNTP server
 Name:		leafnode
 Version:	1.11.8
-Release:	12
+Release:	13
 License:	Artistic
 Group:		System/Servers
 Url:		http://www.leafnode.org
@@ -10,6 +10,7 @@ Source1:	http://prdownloads.sourceforge.net/%{name}/%{name}-%{version}.tar.bz2.a
 Source2:	%{name}.texpire
 Source3:	%{name}.filters
 Source4:	%{name}.xinetd
+Source5:        %{name}-tmpfiles.conf
 BuildRequires:	pkgconfig(libpcre)
 Requires:	xinetd
 Conflicts:	inn
@@ -26,7 +27,7 @@ newsserver of the ISP.
 %build
 %configure2_5x \
 	--with-spooldir=/var/spool/news \
-	--with-lockfile=/var/lock/news/%{name} \
+	--with-lockfile=/run/lock/news/%{name} \
 	--sysconfdir=%{_sysconfdir}/%{name}
 %make 
 
@@ -37,6 +38,7 @@ install -m 755 %SOURCE2 %{buildroot}%{_sysconfdir}/cron.daily/texpire
 install -m 600 %{_builddir}/%{name}-%{version}/config.example %{buildroot}%{_sysconfdir}/leafnode/config
 install -m 600 %SOURCE3 %{buildroot}%{_sysconfdir}/leafnode/filters
 install -D -m644 %{SOURCE4} %{buildroot}/etc/xinetd.d/%{name}
+install -D -p -m 0644 %{SOURCE5} %{buildroot}%{_tmpfilesdir}/%{name}.conf
 
 cp doc_german/README doc_german/README.de
 
@@ -56,6 +58,9 @@ if [ -f %{_sysconfdir}/cron.daily/texpire.cron ] ; then
         rm -f %{_sysconfdir}/cron.daily/texpire.cron
 fi
 
+%post
+systemd-tmpfiles --create %{name}.conf
+
 %files
 %doc COPYING CREDITS INSTALL README tools/archivefaq.pl update.sh
 #%doc doc_german/README.de doc_german/txt/*
@@ -72,7 +77,7 @@ fi
 %config(noreplace) %{_sysconfdir}/xinetd.d/%{name}
 %attr(750,news,news) %{_sbindir}/*
 %attr(755,news,news) %{_bindir}/*
-%dir /var/lock/news
+%{_tmpfilesdir}/%{name}.conf
 %dir /var/spool/news
 %dir /var/spool/news/*
 %dir /var/spool/news/message.id/*
