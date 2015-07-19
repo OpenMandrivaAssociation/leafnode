@@ -1,7 +1,7 @@
 Summary:	Leafsite NNTP server
 Name:		leafnode
 Version:	1.11.8
-Release:	13
+Release:	14
 License:	Artistic
 Group:		System/Servers
 Url:		http://www.leafnode.org
