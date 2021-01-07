@@ -1,12 +1,15 @@
+%global commit 66da754d164983fde96ae391ddfda53a0b74e51b
 Summary:	Leafsite NNTP server
 Name:		leafnode
-Version:	1.11.11
-Release:	15
+Version:	2.0.0
+Release:	1
 License:	Artistic
 Group:		System/Servers
-Url:		http://www.leafnode.org
-Source0:	http://prdownloads.sourceforge.net/%{name}/%{name}-%{version}.tar.bz2
-Source1:	http://prdownloads.sourceforge.net/%{name}/%{name}-%{version}.tar.bz2.asc
+# Last official source:
+# Url:		http://leafnode.sourceforge.io/
+# Tree that has seen a little development in the last 2 decades:
+Url:		https://gitlab.com/leafnode-2/leafnode-2/
+Source0:	https://gitlab.com/leafnode-2/leafnode-2/-/archive/%{commit}/leafnode-%{version}.tar.bz2
 Source2:	%{name}.texpire
 Source3:	%{name}.filters
 Source4:	%{name}.xinetd
@@ -22,10 +25,14 @@ automatically fetch the newsgroups the user reads regularly from the
 newsserver of the ISP.
 
 %prep
-%setup -q
+%autosetup -p1 -n leafnode-2-%{commit}
+aclocal
+autoheader
+automake -a
+autoconf
 
 %build
-%configure2_5x \
+%configure \
 	--with-spooldir=/var/spool/news \
 	--with-lockfile=/run/lock/news/%{name} \
 	--sysconfdir=%{_sysconfdir}/%{name}
@@ -35,7 +42,7 @@ newsserver of the ISP.
 %makeinstall_std
 install -d %{buildroot}%{_sysconfdir}/{cron.daily,leafnode}
 install -m 755 %SOURCE2 %{buildroot}%{_sysconfdir}/cron.daily/texpire
-install -m 600 %{_builddir}/%{name}-%{version}/config.example %{buildroot}%{_sysconfdir}/leafnode/config
+#install -m 600 config.example %{buildroot}%{_sysconfdir}/leafnode/config
 install -m 600 %SOURCE3 %{buildroot}%{_sysconfdir}/leafnode/filters
 install -D -m644 %{SOURCE4} %{buildroot}/etc/xinetd.d/%{name}
 install -D -p -m 0644 %{SOURCE5} %{buildroot}%{_tmpfilesdir}/%{name}.conf
@@ -44,10 +51,9 @@ cp doc_german/README doc_german/README.de
 
 # Install the man pages
 install -d %{buildroot}%{_mandir}/{,de}/man{1,3,8}
-install -m 644 doc_german/*.1 %{buildroot}%{_mandir}/de/man1
-rm -rf doc_german/*.1
-install -m 644 doc_german/*.8 %{buildroot}%{_mandir}/de/man8
-rm -rf doc_german/*.8
+install -m 644 doc_german/man/man1/*.1 %{buildroot}%{_mandir}/de/man1
+install -m 644 doc_german/man/man8/*.8 %{buildroot}%{_mandir}/de/man8
+rm -rf doc_german/man
 install -m 644 `find . -name "*.1"` %{buildroot}%{_mandir}/man1
 install -m 644 `find . -name "*.8"` %{buildroot}%{_mandir}/man8
 rm -f %{buildroot}%{_mandir}/man?/pcre*
@@ -62,11 +68,12 @@ fi
 systemd-tmpfiles --create %{name}.conf
 
 %files
-%doc COPYING CREDITS INSTALL README tools/archivefaq.pl update.sh
+%doc COPYING CREDITS INSTALL tools/archivefaq.pl update.sh
 #%doc doc_german/README.de doc_german/txt/*
 %attr(755,root,root) %config(noreplace) %{_sysconfdir}/cron.daily/texpire
 %attr (644,root,man) %{_mandir}/man1/*
 %attr (644,root,man) %{_mandir}/de/man1/*
+%attr (644,root,man) %{_mandir}/man5/*
 %attr (644,root,man) %{_mandir}/man8/*
 %attr (644,root,man) %{_mandir}/de/man8/*
 #%attr (644,root,man) %{_mandir}/de/man1/*
