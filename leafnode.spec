@@ -14,6 +14,11 @@ Source2:	%{name}.texpire
 Source3:	%{name}.filters
 Source4:	%{name}.xinetd
 Source5:        %{name}-tmpfiles.conf
+BuildRequires:	autoconf
+BuildRequires:	automake
+BuildRequires:	libtool-base
+BuildRequires:	slibtool
+BuildRequires:	make
 BuildRequires:	pkgconfig(libpcre)
 Requires:	xinetd
 Conflicts:	inn
